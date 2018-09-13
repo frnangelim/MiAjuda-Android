@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "145590010505",
+    "firebase_url": "https://monitorias-ufcg.firebaseio.com",
+    "project_id": "monitorias-ufcg",
+    "storage_bucket": "monitorias-ufcg.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145590010505:android:8b0018733c2012aa",
+        "android_client_info": {
+          "package_name": "com.grupogtd.es20182.monitoriasufcg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145590010505-dpjp36oa5hvjl5eepvnj6kcdu56o2koa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grupogtd.es20182.monitoriasufcg",
+            "certificate_hash": "9d7114807e6ab273039cdc6e8b624f616050a8e7"
+          }
+        },
+        {
+          "client_id": "145590010505-55msqtkhd9u8kaek6kuvkjhp8otnkj3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLcGHPrqI4UPhaUQznNh9Pp7vh17NhuAA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145590010505-55msqtkhd9u8kaek6kuvkjhp8otnkj3i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

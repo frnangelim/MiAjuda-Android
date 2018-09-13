@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Monitorias UFCG</string>
+    <string name="login">Login</string>
+    <string name="connection_fail_msg">A conexão falhou.</string>
+    <string name="login_success_msg">Login realizado com sucesso.</string>
+    <string name="account_disconnected">Conta desconectada.</string>
+    <string name="logout">Sair.</string>
+</resources>
