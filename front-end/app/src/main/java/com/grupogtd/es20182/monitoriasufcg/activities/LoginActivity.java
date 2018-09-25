@@ -92,20 +92,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInAccount account = result.getSignInAccount();
 
             if (account != null) {
-                String domain = account.getEmail().split("@")[1];
-
-                if (domain.equals("ccc.ufcg.edu.br")){
-                    if (result.isSuccess()) {
-                        firebaseLogin(account);
-                    }
-                } else {
-                    FirebaseConnection.getFirebaseAuth().signOut();
-                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(@NonNull Status status) {
-                        }
-                    });
-                    Util.showShortToast(this, "Por favor, utilize um email @ccc.ufcg.edu.br");
+                if (result.isSuccess()) {
+                    firebaseLogin(account);
                 }
             }
         }
