@@ -1,17 +1,17 @@
 package com.grupogtd.es20182.monitoriasufcg.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -20,13 +20,21 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.grupogtd.es20182.monitoriasufcg.R;
+import com.grupogtd.es20182.monitoriasufcg.adapters.CourseAdapter;
 import com.grupogtd.es20182.monitoriasufcg.firebase.FirebaseConnection;
-import com.grupogtd.es20182.monitoriasufcg.utils.Constant;
+import com.grupogtd.es20182.monitoriasufcg.service.domain.Course;
 import com.grupogtd.es20182.monitoriasufcg.utils.Util;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
+
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private ProgressBar mProgressBar;
+    private CourseAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,31 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.activity_main);
 
         connectGoogleApi();
+        initRecyclerView();
+        getCourses();
+    }
+
+    private void getCourses() {
+        Util.showProgressbar(mProgressBar);
+        ArrayList<Course> courses = new ArrayList<Course>();
+        courses.add(new Course("Engenharia de Software", "Rohit Gheyi"));
+        courses.add(new Course("Banco de Dados I", "Cláudio Campelo"));
+        courses.add(new Course("Métodos e Software Númericos", "Antão Moura"));
+        courses.add(new Course("Programação I", "Dalton Serey"));
+        courses.add(new Course("Introdução a Computação", "Joseana Fechine"));
+        courses.add(new Course("Programação Funcinal", "Adalberto Cajueiro"));
+
+        mAdapter = new CourseAdapter(this, courses);
+        mRecyclerView.setAdapter(mAdapter);
+        Util.hideProgressbar(mProgressBar);
+    }
+
+    private void initRecyclerView() {
+        mRecyclerView = findViewById(R.id.rv_courses);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mProgressBar = findViewById(R.id.progress);
     }
 
     private void connectGoogleApi() {
