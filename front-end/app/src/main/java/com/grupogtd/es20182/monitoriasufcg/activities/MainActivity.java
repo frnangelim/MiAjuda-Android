@@ -1,9 +1,13 @@
 package com.grupogtd.es20182.monitoriasufcg.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +15,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.auth.api.Auth;
@@ -25,6 +32,8 @@ import com.grupogtd.es20182.monitoriasufcg.firebase.FirebaseConnection;
 import com.grupogtd.es20182.monitoriasufcg.service.domain.Course;
 import com.grupogtd.es20182.monitoriasufcg.utils.Util;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -36,13 +45,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private ProgressBar mProgressBar;
     private CourseAdapter mAdapter;
 
+    private FloatingActionButton fabAdd;
+    private Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mContext = this;
+
         connectGoogleApi();
         initRecyclerView();
+        initFab();
         getCourses();
     }
 
@@ -67,6 +82,42 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mProgressBar = findViewById(R.id.progress);
+    }
+
+    private void initFab() {
+        fabAdd = findViewById(R.id.fab_add);
+
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAddCourseDialog();
+            }
+        });
+    }
+
+    private void openAddCourseDialog() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_add_course, null);
+        mBuilder.setView(mView);
+        final AlertDialog dialog = mBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        final EditText deckName = mView.findViewById(R.id.et_code);
+        Button addDeck = mView.findViewById(R.id.btn_add);
+
+        addDeck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (deckName.getText().toString().trim().length() >= 3) {
+                    Util.showShortToast(mContext, "Turma adicionada(NOT WORKING)");
+                    dialog.dismiss();
+                } else {
+                    Util.showShortToast(mContext, "Código inválido");
+                }
+            }
+        });
+
+        dialog.show();
     }
 
     private void connectGoogleApi() {

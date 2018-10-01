@@ -5,4 +5,8 @@
     <string name="login_success_msg">Login realizado com sucesso.</string>
     <string name="account_disconnected">Conta desconectada.</string>
     <string name="logout">Sair.</string>
+
+    <string name="add">Adicionar</string>
+    <string name="insert_code">Insira o código da turma</string>
+    <string name="code_hint">Código da turma</string>
 </resources>
