@@ -13,28 +13,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.grupogtd.es20182.monitoriasufcg.R;
 import com.grupogtd.es20182.monitoriasufcg.adapters.CourseAdapter;
 import com.grupogtd.es20182.monitoriasufcg.firebase.FirebaseConnection;
 import com.grupogtd.es20182.monitoriasufcg.service.domain.Course;
+import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.Callback.IServerArrayCallback;
+import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.ServerConnector;
+import com.grupogtd.es20182.monitoriasufcg.utils.Constant;
 import com.grupogtd.es20182.monitoriasufcg.utils.Util;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -48,12 +59,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FloatingActionButton fabAdd;
     private Context mContext;
 
+    private ServerConnector mServerConnector;
+    private Gson mGson;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mContext = this;
+        mServerConnector = new ServerConnector(this);
+        mGson = new Gson();
 
         connectGoogleApi();
         initRecyclerView();
@@ -62,18 +78,35 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void getCourses() {
-        Util.showProgressbar(mProgressBar);
-        ArrayList<Course> courses = new ArrayList<Course>();
-        courses.add(new Course("Engenharia de Software", "Rohit Gheyi"));
-        courses.add(new Course("Banco de Dados I", "Cláudio Campelo"));
-        courses.add(new Course("Métodos e Software Númericos", "Antão Moura"));
-        courses.add(new Course("Programação I", "Dalton Serey"));
-        courses.add(new Course("Introdução a Computação", "Joseana Fechine"));
-        courses.add(new Course("Programação Funcinal", "Adalberto Cajueiro"));
+        String currentEmail = FirebaseConnection.getFirebaseUser().getEmail();
 
-        mAdapter = new CourseAdapter(this, courses);
-        mRecyclerView.setAdapter(mAdapter);
-        Util.hideProgressbar(mProgressBar);
+        mServerConnector.getArray(Constant.BASE_URL + Constant.GET_MY_CLASSES_QUERY + currentEmail, new IServerArrayCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                Type courseListType = new TypeToken<List<Course>>() {
+                }.getType();
+
+                ArrayList<Course> courses = mGson.fromJson(String.valueOf(result), courseListType);
+
+                TextView empty = findViewById(R.id.empty_courses);
+                if (courses.size() > 0) {
+                    mAdapter = new CourseAdapter(mContext, courses);
+                    mRecyclerView.setAdapter(mAdapter);
+                    empty.setVisibility(View.INVISIBLE);
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                }
+
+
+                Util.hideProgressbar(mProgressBar);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.d("CALLBACK", error.toString());
+                Log.i("CALLBACK", "FALHOU");
+            }
+        });
     }
 
     private void initRecyclerView() {
