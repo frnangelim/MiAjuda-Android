@@ -6,7 +6,7 @@ package com.grupogtd.es20182.monitoriasufcg.utils;
 
 public class Constant {
 
-    public static final String BASE_URL = "http://192.168.15.17:8080/api";
+    public static final String BASE_URL = "http://192.168.15.19:8080/api";
 
     public static final String LOGIN_QUERY = "/auth/login";
 
@@ -16,6 +16,8 @@ public class Constant {
     public static final String EMAIL_KEY = "email";
     public static final String NAME_KEY = "name";
     public static final String PASSWORD_KEY = "password";
+    public static final String CLASS_TOKEN_KEY = "token";
+    public static final String JWT_KEY = "jwt";
 
     public static final String DEFAULT_PASSWORD = "miAjuda001x";
 

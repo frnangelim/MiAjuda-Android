@@ -3,6 +3,7 @@ package com.grupogtd.es20182.monitoriasufcg.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -36,12 +37,14 @@ import com.grupogtd.es20182.monitoriasufcg.adapters.CourseAdapter;
 import com.grupogtd.es20182.monitoriasufcg.firebase.FirebaseConnection;
 import com.grupogtd.es20182.monitoriasufcg.service.domain.Course;
 import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.Callback.IServerArrayCallback;
+import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.Callback.IServerObjectCallback;
 import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.ServerConnector;
 import com.grupogtd.es20182.monitoriasufcg.utils.Constant;
 import com.grupogtd.es20182.monitoriasufcg.utils.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -135,22 +138,52 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         final AlertDialog dialog = mBuilder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        final EditText deckName = mView.findViewById(R.id.et_code);
-        Button addDeck = mView.findViewById(R.id.btn_add);
+        final EditText code = mView.findViewById(R.id.et_code);
+        Button add = mView.findViewById(R.id.btn_add);
+        Button cancel = mView.findViewById(R.id.btn_cancel);
 
-        addDeck.setOnClickListener(new View.OnClickListener() {
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (deckName.getText().toString().trim().length() >= 3) {
-                    Util.showShortToast(mContext, "Turma adicionada(NOT WORKING)");
-                    dialog.dismiss();
-                } else {
-                    Util.showShortToast(mContext, "Código inválido");
-                }
+                joinClass(code.getText().toString());
+                dialog.dismiss();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
 
         dialog.show();
+    }
+
+    private void joinClass(String code) {
+        JSONObject json = new JSONObject();
+        SharedPreferences sharedPreferences = getSharedPreferences(Constant.USER_PREFERENCES, Context.MODE_PRIVATE);
+        String jwt = sharedPreferences.getString(Constant.ACCESS_TOKEN, null);
+        try {
+            json.put(Constant.CLASS_TOKEN_KEY, code);
+            json.put(Constant.JWT_KEY, jwt);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mServerConnector.postObject(Constant.BASE_URL + Constant.JOIN_CLASS_QUERY, json, new IServerObjectCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                Util.showShortToast(mContext, "Turma adicionada com sucesso.");
+                getCourses();
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Util.showShortToast(mContext, "Código inválido.");
+                Log.d("result2", error.toString());
+            }
+        });
     }
 
     private void connectGoogleApi() {

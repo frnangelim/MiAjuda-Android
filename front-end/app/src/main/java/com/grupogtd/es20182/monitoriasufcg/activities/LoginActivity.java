@@ -71,8 +71,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void checkIfUserIsAlreadyLogged() {
         if (FirebaseConnection.getFirebaseAuth().getCurrentUser() != null) {
             SharedPreferences sharedPreferences = getSharedPreferences(Constant.USER_PREFERENCES, Context.MODE_PRIVATE);
-            String token = sharedPreferences.getString(Constant.ACCESS_TOKEN, null);
-            if (token != null) {
+            String jwt = sharedPreferences.getString(Constant.ACCESS_TOKEN, null);
+            if (jwt != null) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
