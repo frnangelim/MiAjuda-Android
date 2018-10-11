@@ -40,7 +40,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private SignInButton btnSignIn;
     private GoogleApiClient mGoogleApiClient;
@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             SharedPreferences sharedPreferences = getSharedPreferences(Constant.USER_PREFERENCES, Context.MODE_PRIVATE);
             String jwt = sharedPreferences.getString(Constant.ACCESS_TOKEN, null);
             if (jwt != null) {
+                Util.setJwt(jwt);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -145,7 +146,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         JSONObject json = new JSONObject();
         try {
             json.put(Constant.EMAIL_KEY, FirebaseConnection.getFirebaseUser().getEmail());
-            json.put(Constant.NAME_KEY, FirebaseConnection.getFirebaseUser().getDisplayName());
             json.put(Constant.PASSWORD_KEY, Constant.DEFAULT_PASSWORD);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -156,6 +156,43 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onSuccess(JSONObject result) {
                 saveToken(result);
                 redirectToMain();
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                FirebaseConnection.getFirebaseAuth().signOut();
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        // Logged out
+                    }
+                });
+
+                if (error.networkResponse.statusCode == 401) {
+                    createUser();
+                }
+                Log.d("result2", error.toString());
+            }
+        });
+    }
+
+    private void createUser() {
+        ServerConnector mServerConnector = new ServerConnector(this);
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put(Constant.EMAIL_KEY, FirebaseConnection.getFirebaseUser().getEmail());
+            json.put(Constant.NAME_KEY, FirebaseConnection.getFirebaseUser().getDisplayName());
+            json.put(Constant.PASSWORD_KEY, Constant.DEFAULT_PASSWORD);
+            json.put(Constant.ROLE_KEY, Constant.DEFAULT_ROLE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mServerConnector.postObject(Constant.BASE_URL + Constant.SINGUP_QUERY, json, new IServerObjectCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                getAccessFromBackend();
             }
 
             @Override

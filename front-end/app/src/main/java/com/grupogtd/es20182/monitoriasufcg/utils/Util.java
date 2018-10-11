@@ -11,6 +11,16 @@ import android.widget.Toast;
 
 public class Util {
 
+    public static String jwt = "";
+
+    public static String getJwt() {
+        return jwt;
+    }
+
+    public static void setJwt(String jwt) {
+        Util.jwt = jwt;
+    }
+
     public static void showShortToast(Context ctx, String message) {
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
@@ -19,11 +29,11 @@ public class Util {
         Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show();
     }
 
-    public static void showProgressbar(ProgressBar mProgressBar){
+    public static void showProgressbar(ProgressBar mProgressBar) {
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
-    public static void hideProgressbar(ProgressBar mProgressBar){
+    public static void hideProgressbar(ProgressBar mProgressBar) {
         mProgressBar.setVisibility(View.GONE);
     }
 }

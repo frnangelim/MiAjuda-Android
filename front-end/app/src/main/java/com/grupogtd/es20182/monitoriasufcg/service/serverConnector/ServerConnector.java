@@ -1,7 +1,10 @@
 package com.grupogtd.es20182.monitoriasufcg.service.serverConnector;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -11,9 +14,16 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.Callback.IServerArrayCallback;
 import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.Callback.IServerObjectCallback;
+import com.grupogtd.es20182.monitoriasufcg.utils.Constant;
+import com.grupogtd.es20182.monitoriasufcg.utils.Util;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.grupogtd.es20182.monitoriasufcg.utils.Constant.ACCESS_TOKEN;
 
 public class ServerConnector {
     private RequestQueue mQueue;
@@ -54,9 +64,14 @@ public class ServerConnector {
                     public void onErrorResponse(VolleyError error) {
                         callBack.onError(error);
                     }
-                }
-        );
-
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Authorization", Util.getJwt());
+                return headers;
+            }
+        };
         mQueue.add(getArrayRequest);
     }
 
@@ -73,9 +88,15 @@ public class ServerConnector {
                     public void onErrorResponse(VolleyError error) {
                         callBack.onError(error);
                     }
-                }
-        );
-
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Log.d("JWTTT", Util.getJwt());
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Authorization", Util.getJwt());
+                return headers;
+            }
+        };
         mQueue.add(postObjectRequest);
     }
 

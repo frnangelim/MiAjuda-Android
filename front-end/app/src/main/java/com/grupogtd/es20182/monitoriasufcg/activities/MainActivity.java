@@ -81,9 +81,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void getCourses() {
-        String currentEmail = FirebaseConnection.getFirebaseUser().getEmail();
+        Util.showProgressbar(mProgressBar);
 
-        mServerConnector.getArray(Constant.BASE_URL + Constant.GET_MY_CLASSES_QUERY + currentEmail, new IServerArrayCallback() {
+        mServerConnector.getArray(Constant.BASE_URL + Constant.GET_MY_CLASSES_QUERY, new IServerArrayCallback() {
             @Override
             public void onSuccess(JSONArray result) {
                 Type courseListType = new TypeToken<List<Course>>() {
@@ -161,12 +161,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void joinClass(String code) {
+        Util.showProgressbar(mProgressBar);
         JSONObject json = new JSONObject();
-        SharedPreferences sharedPreferences = getSharedPreferences(Constant.USER_PREFERENCES, Context.MODE_PRIVATE);
-        String jwt = sharedPreferences.getString(Constant.ACCESS_TOKEN, null);
         try {
             json.put(Constant.CLASS_TOKEN_KEY, code);
-            json.put(Constant.JWT_KEY, jwt);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -182,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             public void onError(VolleyError error) {
                 Util.showShortToast(mContext, "Código inválido.");
                 Log.d("result2", error.toString());
+                Util.hideProgressbar(mProgressBar);
             }
         });
     }
