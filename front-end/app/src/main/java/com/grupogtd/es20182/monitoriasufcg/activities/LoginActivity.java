@@ -207,6 +207,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         SharedPreferences.Editor editor = sharedPreferences.edit();
         try {
             editor.putString(Constant.ACCESS_TOKEN, String.valueOf(result.get("jwt")));
+            Util.setJwt(String.valueOf(result.get("jwt")));
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -13,6 +13,7 @@ public class Constant {
 
     public static final String GET_MY_CLASSES_QUERY = "/users/classes";
     public static final String JOIN_CLASS_QUERY = "/users/joinAClass";
+    public static final String QUIT_CLASS_QUERY = "/users/quitClass";
 
     public static final String EMAIL_KEY = "email";
     public static final String NAME_KEY = "name";

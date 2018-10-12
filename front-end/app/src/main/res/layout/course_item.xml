@@ -11,52 +11,77 @@
         app:cardCornerRadius="6dp">
 
         <LinearLayout
-            android:id="@+id/course"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:background="@drawable/selector"
-            android:clickable="true">
+            android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/course"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="5dp">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:background="@drawable/selector"
+                android:clickable="true">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Turma:"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    android:layout_marginStart="5dp">
 
-                <TextView
-                    android:id="@+id/tv_course"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/course_label"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_course"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Engenharia de Software"
+                        android:layout_marginStart="2dp"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Engenharia de Software"
-                    android:layout_marginStart="2dp"/>
+                    android:orientation="horizontal"
+                    android:layout_marginStart="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/teacher_label"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_teacher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rohit Gheyi"
+                        android:layout_marginStart="2dp"/>
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginStart="5dp">
+                android:gravity="end">
 
-                <TextView
+                <ImageButton
+                    android:id="@+id/delete_class"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Professor:"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_teacher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rohit Gheyi"
-                    android:layout_marginStart="2dp"/>
+                    android:padding="15dp"
+                    android:src="@drawable/cancels"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:tint="@color/colorPrimary"
+                    android:background="@drawable/selector"/>
             </LinearLayout>
 
         </LinearLayout>

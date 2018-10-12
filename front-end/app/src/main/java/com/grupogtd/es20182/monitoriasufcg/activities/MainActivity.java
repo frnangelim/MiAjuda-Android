@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -75,9 +76,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mGson = new Gson();
 
         connectGoogleApi();
+        initView();
+        getCourses();
+    }
+
+    private void initView() {
         initRecyclerView();
         initFab();
-        getCourses();
     }
 
     private void getCourses() {
@@ -100,10 +105,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     empty.setVisibility(View.VISIBLE);
                 }
 
-
                 Util.hideProgressbar(mProgressBar);
             }
-
             @Override
             public void onError(VolleyError error) {
                 Log.d("CALLBACK", error.toString());
@@ -122,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private void initFab() {
         fabAdd = findViewById(R.id.fab_add);
-
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,13 +174,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mServerConnector.postObject(Constant.BASE_URL + Constant.JOIN_CLASS_QUERY, json, new IServerObjectCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                Util.showShortToast(mContext, "Turma adicionada com sucesso.");
+                Util.showShortToast(mContext, mContext.getString(R.string.course_joined));
                 getCourses();
             }
 
             @Override
             public void onError(VolleyError error) {
-                Util.showShortToast(mContext, "Código inválido.");
+                Util.showShortToast(mContext, mContext.getString(R.string.invalid_code));
                 Log.d("result2", error.toString());
                 Util.hideProgressbar(mProgressBar);
             }
@@ -221,8 +223,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         } else {
             builder = new AlertDialog.Builder(this);
         }
-        builder.setTitle("Sair")
-                .setMessage("Você tem deseja que deseja sair da conta?")
+        builder.setTitle(mContext.getString(R.string.logout))
+                .setMessage(mContext.getString(R.string.confirm_acc_exit))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         logout();

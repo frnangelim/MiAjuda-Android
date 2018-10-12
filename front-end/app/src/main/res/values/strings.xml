@@ -4,9 +4,22 @@
     <string name="connection_fail_msg">A conexão falhou.</string>
     <string name="login_success_msg">Login realizado com sucesso.</string>
     <string name="account_disconnected">Conta desconectada.</string>
+    <string name="confirm_acc_exit">Você tem deseja que deseja sair da conta?</string>
     <string name="logout">Sair.</string>
 
     <string name="add">Adicionar</string>
     <string name="insert_code">Insira o código da turma</string>
     <string name="code_hint">Código da turma</string>
+    <string name="invalid_code">Código inválido.</string>
+    <string name="course_joined">Turma adicionada com sucesso.</string>
+
+    <string name="confirm_course_exit">Você tem deseja que deseja sair da turma?</string>
+    <string name="course_exited">Você saiu da turma.</string>
+
+    <string name="are_you_teacher">Você é professor? Acesse aqui</string>
+    <string name="empty_courses">Você ainda não entrou em nenhuma turma.</string>
+
+    <string name="course_label">Turma:</string>
+    <string name="teacher_label">Professor:</string>
+
 </resources>

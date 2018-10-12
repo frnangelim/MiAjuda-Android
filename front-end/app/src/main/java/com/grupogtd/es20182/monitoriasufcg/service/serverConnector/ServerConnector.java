@@ -91,7 +91,6 @@ public class ServerConnector {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Log.d("JWTTT", Util.getJwt());
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Authorization", Util.getJwt());
                 return headers;
@@ -133,8 +132,14 @@ public class ServerConnector {
                         callBack.onError(error);
                     }
                 }
-        );
-
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Authorization", Util.getJwt());
+                return headers;
+            }
+        };
         mQueue.add(deleteObjectRequest);
     }
 }

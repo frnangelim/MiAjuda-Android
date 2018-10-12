@@ -71,7 +71,7 @@
                     android:id="@+id/tv_teacher"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Você é professor? Acesse aqui"
+                    android:text="@string/are_you_teacher"
                     android:textColor="#b9b9ba"
                     android:gravity="center"
                     android:layout_marginTop="15dp"
