@@ -2,19 +2,25 @@ package com.grupogtd.es20182.monitoriasufcg.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.grupogtd.es20182.monitoriasufcg.R;
+import com.grupogtd.es20182.monitoriasufcg.activities.ClassActivity;
+import com.grupogtd.es20182.monitoriasufcg.activities.LoginActivity;
+import com.grupogtd.es20182.monitoriasufcg.activities.MainActivity;
 import com.grupogtd.es20182.monitoriasufcg.service.domain.Course;
 import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.Callback.IServerObjectCallback;
 import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.ServerConnector;
@@ -60,6 +66,24 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 openConfirmDialog(position);
             }
         });
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ClassActivity.class);
+                intent.putExtra(Constant.CLASS_OBJ_KEY, courseList.get(position));
+                mContext.startActivity(intent);
+            }
+        });
+
+        holder.courseLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ClassActivity.class);
+                intent.putExtra(Constant.CLASS_OBJ_KEY, courseList.get(position));
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -69,9 +93,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
     class CourseViewHolder extends RecyclerView.ViewHolder {
 
+        CardView cardView;
         TextView courseName;
         TextView teacherName;
         ImageButton delete;
+        LinearLayout courseLayout;
 
         public CourseViewHolder(View itemView) {
             super(itemView);
@@ -79,7 +105,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             courseName = itemView.findViewById(R.id.tv_course);
             teacherName = itemView.findViewById(R.id.tv_teacher);
             delete = itemView.findViewById(R.id.delete_class);
-
+            cardView = itemView.findViewById(R.id.card_view);
+            courseLayout = itemView.findViewById(R.id.course);
         }
     }
 

@@ -13,13 +13,19 @@
     <string name="invalid_code">Código inválido.</string>
     <string name="course_joined">Turma adicionada com sucesso.</string>
 
+    <string name="view">Visualizar</string>
+    <string name="hide">Ocultar</string>
+
     <string name="confirm_course_exit">Você tem deseja que deseja sair da turma?</string>
     <string name="course_exited">Você saiu da turma.</string>
 
     <string name="are_you_teacher">Você é professor? Acesse aqui</string>
     <string name="empty_courses">Você ainda não entrou em nenhuma turma.</string>
+    <string name="empty_posts">Não ha nenhum post.</string>
 
     <string name="course_label">Turma:</string>
     <string name="teacher_label">Professor:</string>
+    <string name="title_activity_class">ClassActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
