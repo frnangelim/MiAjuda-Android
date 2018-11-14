@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
@@ -33,6 +34,7 @@ public class FeedFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private PostAdapter mAdapter;
     private Course currentCourse;
+    private TextView emptyFeed;
 
     private ServerConnector mServerConnector;
     private Gson mGson;
@@ -62,8 +64,14 @@ public class FeedFragment extends Fragment {
                 }.getType();
 
                 posts = mGson.fromJson(String.valueOf(result), postListType);
-                mAdapter = new PostAdapter(getContext(), posts);
-                mRecyclerView.setAdapter(mAdapter);
+                if (posts.size() > 0) {
+                    emptyFeed.setVisibility(View.INVISIBLE);
+                    mAdapter = new PostAdapter(getContext(), posts);
+                    mRecyclerView.setAdapter(mAdapter);
+                } else {
+                    emptyFeed.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
@@ -80,6 +88,7 @@ public class FeedFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_feed, container, false);
 
         mRecyclerView = v.findViewById(R.id.rv_feed);
+        emptyFeed = v.findViewById(R.id.empty_posts);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         currentCourse = getArguments().getParcelable(Constant.CLASS_OBJ_KEY);

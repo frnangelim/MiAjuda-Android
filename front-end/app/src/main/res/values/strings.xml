@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Monitorias UFCG</string>
+    <string name="app_name">MeAjuda</string>
     <string name="login">Login</string>
     <string name="connection_fail_msg">A conexão falhou.</string>
     <string name="login_success_msg">Login realizado com sucesso.</string>
@@ -21,7 +21,8 @@
 
     <string name="are_you_teacher">Você é professor? Acesse aqui</string>
     <string name="empty_courses">Você ainda não entrou em nenhuma turma.</string>
-    <string name="empty_posts">Não ha nenhum post.</string>
+    <string name="empty_posts">Não há nenhuma novidade.</string>
+    <string name="empty_monitors">Não há nenhum monitor cadastrado.</string>
 
     <string name="course_label">Turma:</string>
     <string name="teacher_label">Professor:</string>

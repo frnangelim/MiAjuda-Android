@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="COMPUTAÇÃO"
+            android:text="MeAjuda"
             android:textStyle="bold"
             android:textColor="#014C97"
             android:textSize="35sp"
@@ -33,7 +33,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Monitorias"
+            android:text="Monitorias UFCG"
             android:textStyle="bold"
             android:textColor="#70AAC6"
             android:textSize="30sp"

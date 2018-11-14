@@ -6,7 +6,7 @@ package com.grupogtd.es20182.monitoriasufcg.utils;
 
 public class Constant {
 
-    public static final String BASE_URL = "http://192.168.15.10:8080/api";
+    public static final String BASE_URL = "http://ec2-18-231-117-104.sa-east-1.compute.amazonaws.com:8080/api";
 
     public static final String LOGIN_QUERY = "/users/login";
     public static final String SINGUP_QUERY = "/users";
@@ -15,6 +15,7 @@ public class Constant {
     public static final String JOIN_CLASS_QUERY = "/users/joinAClass";
     public static final String QUIT_CLASS_QUERY = "/users/quitClass";
     public static final String POSTS_QUERY = "/classes/posts";
+    public static final String MONITORS_QUERY = "/classes/monitors";
 
     public static final String EMAIL_KEY = "email";
     public static final String NAME_KEY = "name";

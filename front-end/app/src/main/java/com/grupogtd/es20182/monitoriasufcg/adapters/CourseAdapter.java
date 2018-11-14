@@ -19,8 +19,6 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.grupogtd.es20182.monitoriasufcg.R;
 import com.grupogtd.es20182.monitoriasufcg.activities.ClassActivity;
-import com.grupogtd.es20182.monitoriasufcg.activities.LoginActivity;
-import com.grupogtd.es20182.monitoriasufcg.activities.MainActivity;
 import com.grupogtd.es20182.monitoriasufcg.service.domain.Course;
 import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.Callback.IServerObjectCallback;
 import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.ServerConnector;

@@ -1,98 +1,96 @@
 package com.grupogtd.es20182.monitoriasufcg.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.grupogtd.es20182.monitoriasufcg.R;
+import com.grupogtd.es20182.monitoriasufcg.adapters.MonitorAdapter;
+import com.grupogtd.es20182.monitoriasufcg.service.domain.Course;
+import com.grupogtd.es20182.monitoriasufcg.service.domain.User;
+import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.Callback.IServerArrayCallback;
+import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.ServerConnector;
+import com.grupogtd.es20182.monitoriasufcg.utils.Constant;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ChatFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ChatFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.json.JSONArray;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ArrayList<User> monitors = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private MonitorAdapter mAdapter;
 
-    private OnFragmentInteractionListener mListener;
+    private TextView emptyMonitors;
+
+    private Course currentCourse;
+
+    private ServerConnector mServerConnector;
+    private Gson mGson;
 
     public ChatFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChatFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChatFragment newInstance(String param1, String param2) {
-        ChatFragment fragment = new ChatFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        mServerConnector = new ServerConnector(getContext());
+        mGson = new Gson();
+    }
+
+    private void getMonitors() {
+        mServerConnector.getArray(Constant.BASE_URL + Constant.MONITORS_QUERY + "/" + currentCourse.get_id(), new IServerArrayCallback() {
+            @Override
+            public void onSuccess(JSONArray result) {
+                Type postListType = new TypeToken<List<User>>() {
+                }.getType();
+
+                monitors = mGson.fromJson(String.valueOf(result), postListType);
+                if(monitors.size() > 0){
+                    emptyMonitors.setVisibility(View.INVISIBLE);
+                    mAdapter = new MonitorAdapter(getContext(), monitors);
+                    mRecyclerView.setAdapter(mAdapter);
+                } else {
+                    Log.d("HEHE", "oi");
+                    emptyMonitors.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.d("CALLBACK", error.toString());
+                Log.i("CALLBACK", "FALHOU");
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false);
-    }
+        View v = inflater.inflate(R.layout.fragment_chat, container, false);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+        mRecyclerView = v.findViewById(R.id.rv_monitors);
+        emptyMonitors = v.findViewById(R.id.empty_monitors);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        currentCourse = getArguments().getParcelable(Constant.CLASS_OBJ_KEY);
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        getMonitors();
+        return v;
     }
 }

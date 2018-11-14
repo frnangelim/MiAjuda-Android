@@ -28,13 +28,14 @@
 
                 <TextView
                     android:id="@+id/class_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Engenharia de Software"
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:textSize="20dp"
-                    android:layout_marginBottom="3dp"/>
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -47,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginStart="3dp">
 
                 <TextView
@@ -67,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginStart="3dp">
 
                 <TextView
@@ -87,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginStart="3dp">
 
                 <TextView
@@ -107,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginStart="3dp">
 
                 <TextView
@@ -127,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginStart="3dp">
 
                 <TextView
@@ -147,7 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginStart="3dp">
 
                 <TextView
@@ -160,6 +161,8 @@
                     android:id="@+id/class_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:textColorLink="#0000EE"
                     android:text="Lorem ipsum donor aczx as lorem pas uena xo plrem ipsum la denor lassm mxa ka nor" />
             </LinearLayout>
 

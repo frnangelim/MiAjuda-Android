@@ -44,6 +44,8 @@ public class ClassActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         mContext = this;
         mServerConnector = new ServerConnector(this);
@@ -71,9 +73,8 @@ public class ClassActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -122,7 +123,11 @@ public class ClassActivity extends AppCompatActivity {
                     fragment = ClassInfoFragment.newInstance(currentCourse);
                     break;
                 case 2:
+                    Bundle bundleChat = new Bundle();
+                    bundleChat.putParcelable(Constant.CLASS_OBJ_KEY, currentCourse);
+
                     fragment = new ChatFragment();
+                    fragment.setArguments(bundleChat);
                     break;
             }
             return fragment;

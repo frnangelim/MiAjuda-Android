@@ -1,36 +1,16 @@
 package com.grupogtd.es20182.monitoriasufcg.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.grupogtd.es20182.monitoriasufcg.R;
-import com.grupogtd.es20182.monitoriasufcg.activities.ClassActivity;
-import com.grupogtd.es20182.monitoriasufcg.activities.LoginActivity;
-import com.grupogtd.es20182.monitoriasufcg.activities.MainActivity;
-import com.grupogtd.es20182.monitoriasufcg.service.domain.Course;
 import com.grupogtd.es20182.monitoriasufcg.service.domain.Post;
-import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.Callback.IServerObjectCallback;
-import com.grupogtd.es20182.monitoriasufcg.service.serverConnector.ServerConnector;
-import com.grupogtd.es20182.monitoriasufcg.utils.Constant;
-import com.grupogtd.es20182.monitoriasufcg.utils.Util;
-
-import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
